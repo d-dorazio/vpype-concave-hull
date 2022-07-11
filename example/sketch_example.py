@@ -21,7 +21,9 @@ class ExampleSketch(vsketch.SketchClass):
         # vsk.randomSeed(896598421)
         # pts = [(vsk.random(18), vsk.random(21)) for _ in range(5)]
 
-        pts = [(vsk.random(18), vsk.random(21)) for _ in range(2000)]
+        # vsk.randomSeed(66436237)
+        # pts = [(vsk.random(18), vsk.random(21)) for _ in range(6)]
+
         # pts = [
         #     (0, 0),
         #     (10, 0),
@@ -29,12 +31,14 @@ class ExampleSketch(vsketch.SketchClass):
         #     (10, 10),
         # ]
 
+        pts = [(vsk.random(18), vsk.random(21)) for _ in range(1000)]
+
         for x, y in pts:
             vsk.circle(x, y, 0.5)
 
-        # start = datetime.datetime.now()
-        # a = alphashape.alphashape(pts)
-        # print(datetime.datetime.now() - start)
+        start = datetime.datetime.now()
+        a = alphashape.alphashape(pts, 0.9)
+        print(datetime.datetime.now() - start)
 
         start = datetime.datetime.now()
         a = concave_hull(np.asarray(pts))
