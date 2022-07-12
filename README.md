@@ -28,7 +28,7 @@ $ pip install vpype-concave-hull
 Check that your install is successful:
 
 ```
-$ vpype vpype_concave_hull --help
+$ vpype concave-hull --help
 [...]
 ```
 
@@ -37,7 +37,7 @@ $ vpype vpype_concave_hull --help
 The complete plug-in documentation is available directly in the CLI help:
 
 ```bash
-$ vpype vpype_concave_hull --help
+$ vpype concave-hull --help
 ```
 
 

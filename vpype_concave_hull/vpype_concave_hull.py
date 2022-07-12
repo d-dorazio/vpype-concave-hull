@@ -4,7 +4,7 @@ import click
 import vpype as vp
 import vpype_cli
 
-from . import concave_hull
+from . import concave_hull_knn
 
 
 @click.command()
@@ -22,7 +22,7 @@ from . import concave_hull
     help="Target layer.",
 )
 @vpype_cli.global_processor
-def vpype_concave_hull(
+def concave_hull(
     document: vp.Document, layer: Union[int, List[int]], target_layer: Optional[int]
 ) -> vp.Document:
     new_document = document.empty_copy(keep_layers=True)
@@ -36,10 +36,13 @@ def vpype_concave_hull(
 
         new_document.add(lines, layer_id=lid)
 
-        chull = concave_hull(pts)
+        chull = concave_hull_knn(pts)
         if chull is not None and chull.exterior is not None:
             new_document.add(
                 [chull.exterior], layer_id=lid if target_layer is None else target_layer
             )
 
     return new_document
+
+
+concave_hull.help_group = "Plugins"

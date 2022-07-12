@@ -21,14 +21,14 @@ setup(
     ],
     setup_requires=["wheel"],
     install_requires=[
-        'click',
-        'vpype[all]>=1.10,<2.0',
-        'numpy',
-        'scipy',
-        'shapely>=1.8.0',
+        "click",
+        "vpype[all]>=1.10,<2.0",
+        "numpy",
+        "scipy",
+        "shapely>=1.8.0",
     ],
-    entry_points='''
+    entry_points="""
             [vpype.plugins]
-            vpype_concave_hull=vpype_concave_hull.vpype_concave_hull:vpype_concave_hull
-        ''',
+            concave_hull=vpype_concave_hull.vpype_concave_hull:concave_hull
+        """,
 )

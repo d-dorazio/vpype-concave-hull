@@ -5,7 +5,7 @@ from scipy.spatial import KDTree
 from shapely.geometry import LineString, MultiPoint, Polygon
 
 
-def concave_hull(pts: Iterable[tuple[float, float]], k: int = 3) -> Union[Polygon, None]:
+def concave_hull_knn(pts: Iterable[tuple[float, float]], k: int = 3) -> Union[Polygon, None]:
     pts = np.array(list({(x, y) for x, y in pts}))
     if len(pts) < 3:
         return None
@@ -15,10 +15,10 @@ def concave_hull(pts: Iterable[tuple[float, float]], k: int = 3) -> Union[Polygo
 
     xs = pts[:, 0]
     ys = pts[:, 1]
-    return _concave_hull(xs, ys, np.argmin(ys), k)
+    return _concave_hull_knn(xs, ys, np.argmin(ys), k)
 
 
-def _concave_hull(
+def _concave_hull_knn(
     xs: np.ndarray, ys: np.ndarray, top: int, kk: int = 3
 ) -> Union[Polygon, None]:
     n = len(xs)
@@ -79,10 +79,10 @@ def _concave_hull(
             angle = angles[ix]
             break
         else:
-            return _concave_hull(xs, ys, top, kk + 1)
+            return _concave_hull_knn(xs, ys, top, kk + 1)
 
     hh = Polygon(hull)
     if hh.covers(MultiPoint(list(zip(xs, ys)))):
         return hh
 
-    return _concave_hull(xs, ys, top, kk + 1)
+    return _concave_hull_knn(xs, ys, top, kk + 1)

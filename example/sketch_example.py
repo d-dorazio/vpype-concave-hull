@@ -4,7 +4,7 @@ import datetime
 import alphashape
 
 
-from vpype_concave_hull import concave_hull
+from vpype_concave_hull import concave_hull_knn
 
 import numpy as np
 
@@ -41,7 +41,7 @@ class ExampleSketch(vsketch.SketchClass):
         print(datetime.datetime.now() - start)
 
         start = datetime.datetime.now()
-        a = concave_hull(np.asarray(pts))
+        a = concave_hull_knn(np.asarray(pts))
         print(datetime.datetime.now() - start)
 
         if a is not None:
