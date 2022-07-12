@@ -1,8 +1,8 @@
 from typing import Iterable, Union
-import numpy as np
 
-from shapely.geometry import Polygon, MultiPoint, LineString
+import numpy as np
 from scipy.spatial import KDTree
+from shapely.geometry import LineString, MultiPoint, Polygon
 
 
 def concave_hull(pts: Iterable[tuple[float, float]], k: int = 3) -> Union[Polygon, None]:
