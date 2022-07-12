@@ -1,10 +1,11 @@
-from typing import Union
+from typing import Iterable, Union
 import numpy as np
 
 from shapely.geometry import Polygon, MultiPoint, LineString
+from scipy.spatial import KDTree
 
 
-def concave_hull(pts: np.ndarray, k: int = 3) -> Union[Polygon, None]:
+def concave_hull(pts: Iterable[tuple[float, float]], k: int = 3) -> Union[Polygon, None]:
     pts = np.array(list({(x, y) for x, y in pts}))
     if len(pts) < 3:
         return None
@@ -35,29 +36,30 @@ def _concave_hull(
     angle = np.pi
     step = 2
 
+    index = KDTree(list(zip(xs, ys)))
+    index_to_world = np.arange(n, dtype=int)
+
     while (current != top or step == 2) and np.count_nonzero(alive) > 0:
         if step == 5:
             alive[top] = 1
         step += 1
 
-        # consider only alive points
-        alive_indices = np.arange(n)[alive == 1]
+        # nearest neighbors
+        for j in range(2):
+            nn = kk * (1 + (1 - j) * 5)
+            _, ixs = index.query((xs[current], ys[current]), nn)
+            ixs = np.array([i for i in ixs if alive[index_to_world[i]]])
+            if len(ixs) >= kk:
+                break
+
+            index_to_world = np.array([i for i in index_to_world if alive[i]])
+            index = KDTree([(xs[i], ys[i]) for i in index_to_world])
+
+        alive_indices = index_to_world[ixs]
 
         # populate the delta columns
         deltax = xs[alive_indices] - xs[current]
         deltay = ys[alive_indices] - ys[current]
-
-        # nearest neighbors
-        #
-        # TODO: in case of failure we could reuse the distances of the previous
-        # run instead of calculating everything from scratch again
-        dists = np.hypot(deltax, deltay)
-        ixs = np.argpartition(dists, min(kk - 1, len(alive_indices) - 1))[:kk]
-
-        alive_indices = alive_indices[ixs]
-        # dists = dists[ixs]
-        deltax = deltax[ixs]
-        deltay = deltay[ixs]
 
         # sort by right hand turn
         angles = np.unwrap(np.arctan2(deltay, deltax) - angle)
