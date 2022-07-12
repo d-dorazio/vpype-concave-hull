@@ -23,6 +23,9 @@ setup(
     install_requires=[
         'click',
         'vpype[all]>=1.10,<2.0',
+        'numpy',
+        'scipy',
+        'shapely>=1.8.0',
     ],
     entry_points='''
             [vpype.plugins]
