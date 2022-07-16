@@ -25,6 +25,24 @@ from . import concave_hull_knn
 def concave_hull(
     document: vp.Document, layer: Union[int, List[int]], target_layer: Optional[int]
 ) -> vp.Document:
+    """
+    Find the concave hull of a set of points.
+
+    The concave hull is calculated from each layer separately and saved by
+    default in the same layer. You can specify which layer(s) to use with
+    the `--layer` argument and where to store the concave hulls with the
+    `target-layer` argument.
+
+    Args:
+        document: the vpype.Document to work on.
+        layer: which layer(s) to work on.Default: all.
+        target_layer: in which layer to save the concave hull(s).
+        Default: the same as the layer used to find the concave hull.
+    Examples:
+        - Basic usage:
+            $ vpype random -a 10cm 10cm concave-hull show
+            $ vpype random -a 10cm 10cm concave-hull -t NEW show
+    """
     new_document = document.empty_copy(keep_layers=True)
     if target_layer is vpype_cli.LayerType.NEW:
         target_layer = new_document.free_id()

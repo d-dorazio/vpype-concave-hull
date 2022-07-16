@@ -1,11 +1,18 @@
 # vpype-concave-hull
 
-[`vpype`](https://github.com/abey79/vpype) plug-in to [_to be completed_]
+[`vpype`](https://github.com/abey79/vpype) plug-in to create the concave hull
+of a set of points.
 
 
 ## Examples
 
-_to be completed_
+```bash
+# save the concave hull calculated from all the layers onto a new one
+$ vpype random -n 20 -a 20cm 20cm concave-hull -t NEW show
+
+# save the concave hull of layer 1 only onto layer 2
+$ vpype random -n 20 -a 20cm 20cm concave-hull -l 1 -l 2 show
+```
 
 
 ## Installation
