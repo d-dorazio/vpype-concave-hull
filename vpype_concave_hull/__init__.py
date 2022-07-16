@@ -48,7 +48,7 @@ def _concave_hull_knn(
         for j in range(2):
             nn = kk * (1 + (1 - j) * 5)
             _, ixs = index.query((xs[current], ys[current]), nn)
-            ixs = np.array([i for i in ixs if alive[index_to_world[i]]])
+            ixs = np.array([i for i in ixs if alive[index_to_world[i]]])[:kk]
             if len(ixs) >= kk:
                 break
 
