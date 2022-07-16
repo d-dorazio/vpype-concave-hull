@@ -52,7 +52,9 @@ def _concave_hull_knn(
             if len(ixs) >= kk:
                 break
 
-            index_to_world = np.array([i for i in index_to_world if alive[i]])
+            index_to_world = np.array(
+                [i for i in index_to_world if (i == top and step < 7) or alive[i]]
+            )
             index = KDTree([(xs[i], ys[i]) for i in index_to_world])
 
         alive_indices = index_to_world[ixs]
